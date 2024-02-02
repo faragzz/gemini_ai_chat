@@ -3,6 +3,7 @@ import NavBar from './components/NavBar'
 import SideBar from "./components/SideBar";
 import Chat from "./components/chat";
 import NavBarU from "./components/NavBarU";
+
 export default async function Index() {
   /*
    * Replace the elements below with your own.
@@ -10,13 +11,13 @@ export default async function Index() {
    * Note: The corresponding styles are in the ./index.css file.
    */
   return (
-    <div>
+    <div className="h-screen" >
         {/*<NavBar/>*/}
         <div className="fixed z-10 w-full">
             <NavBarU/>
         </div>
         {/*contacts*/}
-      <div className="flex pt-20">
+      <div className="flex py-14 h-screen bg-gray-700">
         {/*<SideBar/>*/}
         {/*chat*/}
         <Chat/>

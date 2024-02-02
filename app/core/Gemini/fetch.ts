@@ -1,9 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import * as process from "process";
-
 // Access your API key (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI(process.env.API_KEY!);
 
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY!);
 async function run(prompt:string) {
     // For text-only input, use the gemini-pro model
     const model = genAI.getGenerativeModel({ model: "gemini-pro"});

@@ -15,9 +15,13 @@
     "@mui/base": "5.0.0-beta.34",
     "@mui/material": "^5.15.5",
     "@nx/next": "17.2.8",
+    "lottie-react": "^2.4.0",
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-lottie": "^1.2.4",
+    "react-speech-kit": "^3.0.1",
+    "react-textarea-autosize": "^8.5.3",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
