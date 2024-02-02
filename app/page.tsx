@@ -1,8 +1,9 @@
-import styles from '../page.module.css';
-import NavBar from '../components/NavBar'
-import SideBar from "../components/SideBar";
-import Chat from "../components/chat";
-const Index = ()=> {
+import styles from './page.module.css';
+import NavBar from './components/NavBar'
+import SideBar from "./components/SideBar";
+import Chat from "./components/chat";
+import NavBarU from "./components/NavBarU";
+export default async function Index() {
   /*
    * Replace the elements below with your own.
    *
@@ -10,14 +11,16 @@ const Index = ()=> {
    */
   return (
     <div>
-      <NavBar/>
+        {/*<NavBar/>*/}
+        <div className="fixed z-10 w-full">
+            <NavBarU/>
+        </div>
         {/*contacts*/}
-      <div className="flex">
-        <SideBar/>
+      <div className="flex pt-20">
+        {/*<SideBar/>*/}
         {/*chat*/}
         <Chat/>
       </div>
     </div>
   );
 }
-export default Index;

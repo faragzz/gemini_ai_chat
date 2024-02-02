@@ -1,4 +1,5 @@
 import './global.css';
+import NavBar from "./components/NavBar";
 
 export const metadata = {
   title: 'Welcome to chat',
@@ -12,6 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      {/*<NavBar/>*/}
       <body>{children}</body>
     </html>
   );
