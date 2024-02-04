@@ -12,9 +12,10 @@ export default async function Index() {
    */
   return (
     <div className="h-screen" >
-        {/*<NavBar/>*/}
+
         <div className="fixed z-10 w-full">
             <NavBarU/>
+            {/*<NavBar/>*/}
         </div>
         {/*contacts*/}
       <div className="flex py-14 h-screen bg-gray-700">

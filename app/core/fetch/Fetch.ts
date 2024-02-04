@@ -1,5 +1,8 @@
+import {QuoteDto} from "../dto/QuoteDto";
+import * as process from "process";
+
 const fetchQuote = async (category: string): Promise<QuoteDto | null> => {
-    const apiKey = 'AFVh0F/Nr8wbDi3UzQdkBQ==U131KAFWQT5vr2s4';
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY_QUOTE;
 
     try {
         const response = await fetch(`https://api.api-ninjas.com/v1/quotes?category=${category}`, {

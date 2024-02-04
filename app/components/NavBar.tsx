@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from 'next/link';
 import fetchQuote from "../core/fetch/Fetch";
 import Snackbar from '@mui/material/Snackbar';
+import {QuoteDto} from "../core/dto/QuoteDto";
 
 
 const NavBar = () => {
@@ -50,7 +51,7 @@ const NavBar = () => {
                     <a href="">
                         <Image
                             src="/assets/images/profile.jfif"
-                            alt="Description of the image"
+                            alt="profile image"
                             width={100}
                             height={100}
                             className="rounded-full"
