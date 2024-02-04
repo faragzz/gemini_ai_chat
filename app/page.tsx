@@ -1,28 +1,32 @@
-import styles from './page.module.css';
-import NavBar from './components/NavBar'
-import SideBar from "./components/SideBar";
-import Chat from "./components/chat";
-import NavBarU from "./components/NavBarU";
+// pages/about.js
+import React from 'react';
+import Link from 'next/link';
 
-export default async function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
-  return (
-    <div className="h-screen" >
+const Page = () => {
+    const rooms = ['Star Wars Room', 'Harry Potter Room'];
 
-        <div className="fixed z-10 w-full">
-            <NavBarU/>
-            {/*<NavBar/>*/}
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-700">
+            <div className="flex flex-col xl:flex-row justify-center items-center h-full w-full">
+                <h1 className="ml-20 text-7xl font-bold md:mb-10 sm:mb-10 ">Choose The Room</h1>
+                <div className="mockup-phone">
+                    <div className="camera"></div>
+                    <div className="display">
+                        <div className="flex artboard artboard-demo phone-1 px-10">
+                            <h1 className="mb-20 text-3xl font-medium ">RAGHUB</h1>
+                            {rooms.map((room, index) => (
+                                <Link key={index} href={`pages/chat/${room.toLowerCase().replace(/\s+/g, '-')}`}>
+                                    <div className="mb-4 w-64 bg-amber-100 p-4 rounded-xl hover:bg-amber-50 text-center">
+                                        <p className="text-black">{room}</p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        {/*contacts*/}
-      <div className="flex py-14 h-screen bg-gray-700">
-        {/*<SideBar/>*/}
-        {/*chat*/}
-        <Chat/>
-      </div>
-    </div>
-  );
-}
+    );
+};
+
+export default Page;

@@ -2,30 +2,45 @@
 import React, { useEffect, useRef, useState } from "react";
 import run from "../core/Gemini/fetch";
 import Lottie from "lottie-react";
-import loadingAnimation from '../../public/assets/loading/loading.json'
+import loadingAnimation from '../../public/assets/loading/loading.json';
 import TextareaAutosize from 'react-textarea-autosize';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faStop, faPlay} from "@fortawesome/free-solid-svg-icons";
-import {Message} from "../core/dto/types";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStop, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { Message } from "../core/dto/types";
 import Defualt_Layout from "./Defualt_Layout";
+import { sendMessageToRoom } from "../core/fetchLocal";
 
-const Chat = () => {
+interface ApiResponse {
+    success: boolean;
+    data?: string;
+    error?: string;
+}
+
+const Chat = ({ title }: { title: string }) => {
+    const [mode, setMode] = useState(true);
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState("");
     const messageContainerRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(false);
-    const [isEmptyPage,setIsEmptyPage]=useState(true);
+    const [isEmptyPage, setIsEmptyPage] = useState(true);
+    const [roomNumber, setRoomNumber] = useState("1");
+
+    useEffect(() => {
+        setMessages([]);
+        setIsEmptyPage(true);
+    }, [title]);
+
     const btnHandler = async (index: number) => {
-        let updatedMessages = [...messages];
+        const updatedMessages = [...messages];
 
         if (messages[index].btn === 'stop') {
             stop();
             updatedMessages[index].btn = 'play';
-            setMessages(updatedMessages); // Update the state immediately
+            setMessages(updatedMessages);
             console.log('pause');
         } else {
             updatedMessages[index].btn = 'stop';
-            setMessages(updatedMessages); // Update the state immediately
+            setMessages(updatedMessages);
 
             const utterance = new SpeechSynthesisUtterance(updatedMessages[index].text);
             utterance.lang = "en-US";
@@ -40,7 +55,7 @@ const Chat = () => {
                 utterance.onend = () => {
                     let finalMessages = [...updatedMessages];
                     finalMessages[index].btn = 'play';
-                    setMessages(finalMessages); // Update the state after speech ends
+                    setMessages(finalMessages);
                     resolve();
                 };
             });
@@ -52,10 +67,31 @@ const Chat = () => {
     };
 
     const response = async () => {
-        const response = await run(newMessage);
-        setLoading(false);
-        setMessages((previous) => [...previous, { text: response, sender: "bot", btn: 'play' }]);
-        setNewMessage("");
+        const isGemini = title !== 'gemini';
+        setMode(isGemini);
+
+        const roomNumber = title === 'star-wars-room' ? '1' : '2';
+
+        try {
+            setLoading(true);
+            let data;
+
+            if (isGemini) {
+                console.log('mode activated');
+                const responseL: ApiResponse = await sendMessageToRoom(roomNumber, newMessage);
+                data = responseL.data!.toString();
+            } else {
+                const responseG = await run(newMessage);
+                data = responseG.toString();
+            }
+
+            setLoading(false);
+            setMessages((previous) => [...previous, { text: data, sender: "bot", btn: 'play' }]);
+            setNewMessage("");
+        } catch (error) {
+            console.error("Error in response:", error);
+            setLoading(false);
+        }
     };
 
     const handleKeyDown = (e) => {
@@ -81,7 +117,7 @@ const Chat = () => {
         ]);
         setNewMessage("");
         setLoading(true);
-
+        console.log(title);
         await response();
     };
 
@@ -112,7 +148,7 @@ const Chat = () => {
                         ))}
                     </div>
                 ))}
-            </div>:<Defualt_Layout/>}
+            </div> : <Defualt_Layout />}
 
             <div className={`flex flex-col fixed bottom-0 items-center w-2/3 mb-4  bg-gray-700 `}>
                 {loading && (
@@ -120,17 +156,18 @@ const Chat = () => {
                         <Lottie animationData={loadingAnimation} loop={true} />
                     </div>
                 )}
-                <div className="flex justify-center items-end w-full h-full">
+                <div className="flex justify-center items-end w-full ">
                     <TextareaAutosize
                         maxRows={15}
-                        minRows={1}
+                        // minRows={1}
                         value={newMessage}
                         onKeyDown={handleKeyDown}
                         onChange={(e) => {
                             setNewMessage(e.target.value);
                         }}
                         placeholder="Type here"
-                        className="input input-bordered w-full py-3 resize-none h-full"
+                        className="input input-bordered w-full py-3 resize-none"
+
                     />
                     <button onClick={handleSendMessage} className="ml-2 btn btn-primary">
                         Send

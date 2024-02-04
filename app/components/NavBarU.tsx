@@ -1,6 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Link from "next/link";
 
-const NavBar =()=>{
+
+interface NavBarProps {
+    handleNavbarClick: (roomName: string) => void;
+    title:string
+}
+
+const NavBar =({handleNavbarClick,title} )=>{
+
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
@@ -23,19 +31,23 @@ const NavBar =()=>{
                         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-4 ">
                             {/* Sidebar content here */}
-                            <li className="bg-base-100 rounded"><a>Room 1</a></li>
-                            <li className="bg-base-100 rounded"><a>Room 2</a></li>
-                            <li className="bg-base-100 rounded"><a>Room 3</a></li>
-                            <li className="bg-base-100 rounded"><a>Room 4</a></li>
-                            <li className="bg-base-100 rounded"><a>Room 5</a></li>
-                            <li className="bg-base-100 rounded"><a>Room 6</a></li>
-
+                            {/*<Link href={`pages/chat/gemini`}>*/}
+                            {/*    <li className="bg-base-100 rounded p-2">Gemini</li>*/}
+                            {/*</Link>*/}
+                            <Link href={`pages/chat/star-wars-room`}>
+                                <li className="bg-base-100 rounded p-2">Star
+                                    Wars Room</li>
+                            </Link>
+                            <Link href={`pages/chat/harry-potter-room`}>
+                                <li  className="bg-base-100 rounded p-2">Harry Potter Room</li>
+                            </Link>
                         </ul>
                     </div>
                 </div>
             </div>
             <div className="navbar-center">
-                <a className="btn btn-ghost text-xl">RAGHUB</a>
+                {/*//change this title*/}
+                <a className="btn btn-ghost text-xl">{title}</a>
             </div>
             <div className="navbar-end">
                 {/*<button className="btn btn-ghost btn-circle">*/}
